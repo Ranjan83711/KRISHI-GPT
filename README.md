@@ -1,5 +1,3 @@
----
-
 ## 🌾 KrishiGPT – AI Assistant for Farmers
 #Overview
 
@@ -23,7 +21,6 @@ Context-aware answers grounded in verified agricultural knowledge
 
 KrishiGPT is built with a **production-style ML pipeline**, focusing on correctness, alignment, and real-world usability rather than just chatbot responses.
 
----
 
 ## 🎯 Core Objectives
 

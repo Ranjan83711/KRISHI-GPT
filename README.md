@@ -1,5 +1,6 @@
 ## 🌾 KrishiGPT – AI Assistant for Farmers
-#Overview
+
+# Overview
 
 **KrishiGPT** is an end-to-end AI-powered agricultural assistant designed to help farmers with accurate, timely, and localized information.
 It combines language models, voice interaction, computer vision, retrieval-based reasoning, and real-time data sources into a single unified system.

@@ -279,7 +279,7 @@ AI / ML Engineer | Data Scientist
 
 * GitHub: [https://github.com/ranjanr6](https://github.com/ranjanr6)
 * Hugging Face: [https://huggingface.co/ranjanr6](https://huggingface.co/ranjanr6)
-
+* 💼 LinkedIn: [https://www.linkedin.com/in/ranjan-kumar-yadav-05b62a231/](https://www.linkedin.com/in/ranjan-kumar-yadav-05b62a231/)
 ---
 
 ## 📜 License

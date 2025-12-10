@@ -1,207 +1,288 @@
 ---
-base_model: Qwen/Qwen1.5-1.8B-Chat
-library_name: peft
-pipeline_tag: text-generation
-tags:
-- base_model:adapter:Qwen/Qwen1.5-1.8B-Chat
-- lora
-- transformers
+
+# 🌾 KrishiGPT – AI Assistant for Farmers
+
+## Overview
+
+**KrishiGPT** is an end-to-end **AI-powered agricultural assistant** designed to help farmers with accurate, timely, and localized information.
+It combines **language models, voice interaction, computer vision, retrieval-based reasoning, and real-time data sources** into a single unified system.
+
+The platform supports:
+
+* Conversational AI for agriculture
+* Voice-based interaction
+* Crop disease detection from images
+* Weather forecasting
+* Nearby mandi (market) price information
+* Context-aware answers grounded in verified agricultural knowledge
+
+KrishiGPT is built with a **production-style ML pipeline**, focusing on correctness, alignment, and real-world usability rather than just chatbot responses.
+
 ---
 
-# Model Card for Model ID
+## 🎯 Core Objectives
 
-<!-- Provide a quick summary of what the model is/does. -->
+* Reduce misinformation in agricultural guidance
+* Provide **grounded, source-aware answers**
+* Enable **low-literacy friendly access via voice**
+* Assist farmers in **decision-making** (crop health, selling price, weather planning)
 
+---
 
+## ✨ Key Features
 
-## Model Details
+### 🤖 Conversational AI (Chat)
 
-### Model Description
+* Agriculture-focused question answering
+* Context-aware and domain-aligned responses
+* Prevents hallucinations using retrieval mechanisms
 
-<!-- Provide a longer summary of what this model is. -->
+### 🎙️ Voice Chat (Speech-to-Text & Text-to-Speech)
 
+* Farmers can speak queries instead of typing
+* System converts speech → text → response → voice reply
+* Designed for ease of use in rural environments
 
+### 🌦️ Weather Information
 
-- **Developed by:** [More Information Needed]
-- **Funded by [optional]:** [More Information Needed]
-- **Shared by [optional]:** [More Information Needed]
-- **Model type:** [More Information Needed]
-- **Language(s) (NLP):** [More Information Needed]
-- **License:** [More Information Needed]
-- **Finetuned from model [optional]:** [More Information Needed]
+* Real-time and forecast weather details
+* Crop-relevant insights such as rainfall, temperature, humidity
+* Helps farmers plan sowing, irrigation, and harvesting
 
-### Model Sources [optional]
+### 📈 Nearby Mandi Price Rates
 
-<!-- Provide the basic links for the model. -->
+* Fetches local market (mandi) prices for crops
+* Helps farmers decide **when and where to sell**
+* Supports data-driven economic transparency
 
-- **Repository:** [More Information Needed]
-- **Paper [optional]:** [More Information Needed]
-- **Demo [optional]:** [More Information Needed]
+### 🌿 Crop Disease Detection (Computer Vision)
 
-## Uses
+* Image-based crop disease identification
+* Provides disease name and confidence
+* Designed for quick on-field diagnosis
 
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
+---
 
-### Direct Use
+## 🏗️ System Architecture (High-Level)
 
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
+```
+User (Text / Voice / Image)
+        ↓
+Frontend (Gradio Interface)
+        ↓
+Decision Router
+   ├─ Chat / RAG Module
+   ├─ Voice Pipeline
+   ├─ Weather Module
+   ├─ Mandi Price Module
+   └─ Vision (YOLO)
+        ↓
+Aggregated Response
+        ↓
+Text + Voice Output
+```
 
-[More Information Needed]
+---
 
-### Downstream Use [optional]
+## 🧠 AI & ML Pipeline (End-to-End)
 
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
+### 1️⃣ Data Collection (Knowledge Source Creation)
 
-[More Information Needed]
+* Agricultural manuals and PDFs
+* Crop disease documentation
+* Fertilizer and pesticide guidelines
+* Government and institutional advisories
 
-### Out-of-Scope Use
+---
 
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
+### 2️⃣ Data Cleaning & Preparation
 
-[More Information Needed]
+* Removal of noise and duplicates
+* Normalization of multilingual text
+* Domain-specific formatting
+* Chunking for semantic understanding
 
-## Bias, Risks, and Limitations
+---
 
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
+### 3️⃣ Embedding Generation
 
-[More Information Needed]
+* Cleaned text converted into semantic embeddings
+* Enables understanding of contextual similarity between queries and agricultural knowledge
+* Forms the foundation of retrieval-based reasoning
 
-### Recommendations
+---
 
-<!-- This section is meant to convey recommendations with respect to the bias, risk, and technical limitations. -->
+### 4️⃣ Vector Store Creation
 
-Users (both direct and downstream) should be made aware of the risks, biases and limitations of the model. More information needed for further recommendations.
+* Embeddings stored in a vector database
+* Allows fast retrieval of relevant knowledge during inference
+* Ensures responses are grounded in verified data
 
-## How to Get Started with the Model
+---
 
-Use the code below to get started with the model.
+### 5️⃣ QA Dataset Preparation
 
-[More Information Needed]
+* Automatic generation of:
 
-## Training Details
+  * High-quality correct answers
+  * Incorrect or weaker answers (for contrast)
+* Context-linked question–answer pairs
+* Designed specifically for **preference learning**
 
-### Training Data
+---
 
-<!-- This should link to a Dataset Card, perhaps with a short stub of information on what the training data is all about as well as documentation related to data pre-processing or additional filtering. -->
+## 🎯 Fine-Tuning Strategy
 
-[More Information Needed]
+### Type of Fine-Tuning Used
 
-### Training Procedure
+✅ **Preference-Based Fine-Tuning**
 
-<!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
+Instead of traditional supervised fine-tuning, KrishiGPT uses **human-aligned preference learning**, where the model learns to choose:
 
-#### Preprocessing [optional]
+* Better answers over poor or misleading ones
+* Grounded responses over hallucinated responses
 
-[More Information Needed]
+---
 
+### Why Preference-Based Fine-Tuning?
 
-#### Training Hyperparameters
+* Improves factual reliability
+* Reduces hallucination
+* Aligns the model with real user expectations
+* Especially effective for sensitive domains like agriculture
 
-- **Training regime:** [More Information Needed] <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
+---
 
-#### Speeds, Sizes, Times [optional]
+## 🔄 Retrieval-Augmented Generation (RAG)
 
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
+During inference:
 
-[More Information Needed]
+* User query is converted into embeddings
+* Relevant agricultural context is retrieved
+* Retrieved context is injected into the prompt
+* Language model generates a grounded answer
 
-## Evaluation
+✅ Ensures answers are **context-backed**, not guessed
 
-<!-- This section describes the evaluation protocols and provides the results. -->
+---
 
-### Testing Data, Factors & Metrics
+## 🌿 Crop Disease Detection (YOLO)
 
-#### Testing Data
+### Model Overview
 
-<!-- This should link to a Dataset Card if possible. -->
+* Uses YOLO-based architecture for fast inference
+* Trained on crop and leaf disease datasets
+* Lightweight and suitable for real-time usage
 
-[More Information Needed]
+### Purpose
 
-#### Factors
+* Identify plant diseases early
+* Reduce dependency on manual expert visits
+* Enable faster corrective action
 
-<!-- These are the things the evaluation is disaggregating by, e.g., subpopulations or domains. -->
+---
 
-[More Information Needed]
+## 🌦️ Weather Module
 
-#### Metrics
+* Integrates external weather sources
+* Provides farm-relevant insights
+* Designed to support:
 
-<!-- These are the evaluation metrics being used, ideally with a description of why. -->
+  * Irrigation planning
+  * Pest risk assessment
+  * Harvest timing decisions
 
-[More Information Needed]
+---
 
-### Results
+## 📊 Mandi Price Intelligence
 
-[More Information Needed]
+* Fetches crop prices from nearby mandis
+* Reduces information asymmetry
+* Helps farmers avoid underpricing exploitation
+* Supports smarter selling strategies
 
-#### Summary
+---
 
+## 🧪 Evaluation & Metrics
 
+### 📌 Language Model Evaluation
 
-## Model Examination [optional]
+* Human preference alignment
+* Answer correctness
+* Context faithfulness
+* Response clarity and usefulness
 
-<!-- Relevant interpretability work for the model goes here -->
+### 📌 Vision Model Evaluation
 
-[More Information Needed]
+* Precision
+* Recall
+* F1 Score
+* Mean Average Precision (mAP)
 
-## Environmental Impact
+---
 
-<!-- Total emissions (in grams of CO2eq) and additional considerations, such as electricity usage, go here. Edit the suggested text below accordingly -->
+## 🧑‍💻 Technology Stack
 
-Carbon emissions can be estimated using the [Machine Learning Impact calculator](https://mlco2.github.io/impact#compute) presented in [Lacoste et al. (2019)](https://arxiv.org/abs/1910.09700).
+### AI / ML
 
-- **Hardware Type:** [More Information Needed]
-- **Hours used:** [More Information Needed]
-- **Cloud Provider:** [More Information Needed]
-- **Compute Region:** [More Information Needed]
-- **Carbon Emitted:** [More Information Needed]
+* PyTorch
+* Transformer-based Language Models
+* Preference Optimization Techniques
+* Retrieval-Augmented Generation (RAG)
+* YOLO for Computer Vision
 
-## Technical Specifications [optional]
+### Backend
 
-### Model Architecture and Objective
+* FastAPI
+* Modular ML pipelines
+* Vector databases for embeddings
 
-[More Information Needed]
+### Frontend
 
-### Compute Infrastructure
+* Gradio (interactive UI)
+* Multimodal input support (text, voice, image)
 
-[More Information Needed]
+### Deployment
 
-#### Hardware
+* Hugging Face Spaces
+* CPU-based inference
+* Model and data caching for efficiency
 
-[More Information Needed]
+---
 
-#### Software
+## ⚠️ Limitations
 
-[More Information Needed]
+* CPU-only inference on free hosting
+* Large models require optimization
+* Voice input limited to file-based audio on hosted platforms
 
-## Citation [optional]
+---
 
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
+## 🔮 Future Scope
 
-**BibTeX:**
+* Multilingual Indian language support
+* Soil health analysis
+* Crop recommendation system
+* Personalized farmer profiles
+* Mobile application integration
+* GPU-backed deployment for scale
 
-[More Information Needed]
+---
 
-**APA:**
+## 👤 Author
 
-[More Information Needed]
+**Ranjan Yadav**
+AI / ML Engineer | Data Scientist
 
-## Glossary [optional]
+* GitHub: [https://github.com/ranjanr6](https://github.com/ranjanr6)
+* Hugging Face: [https://huggingface.co/ranjanr6](https://huggingface.co/ranjanr6)
 
-<!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
+---
 
-[More Information Needed]
+## 📜 License
 
-## More Information [optional]
+MIT License – Open for use, modification, and extension.
 
-[More Information Needed]
+---
 
-## Model Card Authors [optional]
 
-[More Information Needed]
-
-## Model Card Contact
-
-[More Information Needed]
-### Framework versions
-
-- PEFT 0.18.0

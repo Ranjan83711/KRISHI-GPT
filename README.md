@@ -1,20 +1,16 @@
 ---
 
-# 🌾 KrishiGPT – AI Assistant for Farmers
+---
+title: KrishiGPT
+emoji: seedling
+colorFrom: green
+colorTo: yellow
+sdk: gradio
+sdk_version: "4.44.1"
+app_file: app.py
+pinned: false
+---
 
-## Overview
-
-**KrishiGPT** is an end-to-end **AI-powered agricultural assistant** designed to help farmers with accurate, timely, and localized information.
-It combines **language models, voice interaction, computer vision, retrieval-based reasoning, and real-time data sources** into a single unified system.
-
-The platform supports:
-
-* Conversational AI for agriculture
-* Voice-based interaction
-* Crop disease detection from images
-* Weather forecasting
-* Nearby mandi (market) price information
-* Context-aware answers grounded in verified agricultural knowledge
 
 KrishiGPT is built with a **production-style ML pipeline**, focusing on correctness, alignment, and real-world usability rather than just chatbot responses.
 
